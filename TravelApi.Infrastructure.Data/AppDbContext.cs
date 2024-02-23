@@ -21,7 +21,6 @@ namespace TravelApi.Infrastructure.Data
         public DbSet<TaskJourney> Tasks { get; set; }
         public DbSet<Route> Routes { get; set; }
         public DbSet<Settings> Settings { get; set; }
-        public DbSet<SettingsJoinToPerson> SettingsJoinToUsers { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
         public DbSet<EventsJourney> EventsJourney { get; set; }
         public DbSet<Notification> Notifications { get; set; }

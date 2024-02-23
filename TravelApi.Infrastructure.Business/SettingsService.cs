@@ -24,19 +24,13 @@ namespace TravelApi.Infrastructure.Business
             _mapper = mapper;
         }
 
-        public async Task<OperationResult> AssignSettingsToPersonAsync(AssignSettingsToPersonRequest request)
+        public async Task<OperationResult> BindingSettingsToPersonAsync(AssignSettingsToPersonRequest request)
         {
             var personSettings = await _settingsRepository.GetSettingsByPersonAsync(request.PersonId);
             if (!personSettings.Any())
             {
-                var settings = await _settingsRepository.GetAllSettingsAsync();
-                foreach (var setting in settings)
-                {
-                    var person = await _personRepository.GetByIdAsync(request.PersonId);
-                    if (person is not null)
-                        setting.Users.Add(new SettingsJoinToPerson { Person = person, Settings = setting });
-                    await _settingsRepository.UpdateSettingsAsync(setting);
-                }
+                var settings = await _settingsRepository.CreateAndBindingSettingsAsync(request.PersonId);
+                
                 return OperationResult.OK;
             };
             return OperationResult.Fail(OperationCode.Error, "Настройки уже привязаны к пользователю");

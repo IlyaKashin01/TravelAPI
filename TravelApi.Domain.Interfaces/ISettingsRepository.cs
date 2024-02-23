@@ -12,6 +12,6 @@ namespace TravelApi.Domain.Interfaces
         Task<Settings?> GetSettingByPersonAsync(int PersonId, string settingName);
         Task<bool> UpdateSettingsAsync(Settings settings);
         Task<bool> ChangeStatusAsync(int settingId);
-        Task<IEnumerable<Settings>> GetAllSettingsAsync();
+        Task<bool> CreateAndBindingSettingsAsync(int personId);
     }
 }

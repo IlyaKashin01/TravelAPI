@@ -79,12 +79,12 @@ namespace TravelAPI.Controllers
         }
 
         [HttpPut("verification"), Authorize]
-        public async Task<ActionResult<OperationResult<string>>> VericationPersonDataAsync()
+        public async Task<ActionResult<OperationResult<string>>> VericationPersonDataAsync(string verificationCode)
         {
             string authHeader = Request.Headers["Authorization"];
             if (authHeader != null && authHeader.StartsWith("Bearer "))
             {
-                var response = await _authService.VerificationAsync(authHeader.Substring("Bearer ".Length));
+                var response = await _authService.VerificationAsync(authHeader.Substring("Bearer ".Length), verificationCode);
                 if (response.Success) return Ok(response);
                 return BadRequest(response);
             }

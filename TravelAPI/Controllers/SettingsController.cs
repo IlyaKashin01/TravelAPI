@@ -29,7 +29,7 @@ namespace TravelAPI.Controllers
         [HttpPost("assignsettins")]
         public async Task<ActionResult<OperationResult>> AssignSettinsToPersonAsync(AssignSettingsToPersonRequest request)
         {
-            var response = await _settingsService.AssignSettingsToPersonAsync(request);
+            var response = await _settingsService.BindingSettingsToPersonAsync(request);
             if( response.Success ) return Ok(response);
             return BadRequest(response);
         }

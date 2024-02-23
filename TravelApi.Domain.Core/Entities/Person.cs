@@ -22,7 +22,7 @@
         public List<Post> Posts { get; set; } = new List<Post>();
         public Storage Storage { get; set; } = new Storage();
         public int StorageId { get; set; }
-        public List<SettingsJoinToPerson> Settings { get; set; } = new List<SettingsJoinToPerson>();
+        public List<Settings> Settings { get; set; } = new List<Settings>();
         public List<PersonJoinToGroup> Groups { get; set; } = new List<PersonJoinToGroup>();
         public List<Notification> Notifications { get; set; } = new List<Notification>();
     }

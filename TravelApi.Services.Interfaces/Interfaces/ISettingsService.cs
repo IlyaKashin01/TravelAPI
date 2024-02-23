@@ -11,6 +11,6 @@ namespace TravelApi.Services.Interfaces.Interfaces
     {
         Task<OperationResult<bool>> ChangeStatusAsync(int PersonId, string settingName);
         Task<OperationResult<SettingsResponse>> GetSettingAsync(int personId, string nameSetting);
-        Task<OperationResult> AssignSettingsToPersonAsync(AssignSettingsToPersonRequest request);
+        Task<OperationResult> BindingSettingsToPersonAsync(AssignSettingsToPersonRequest request);
     }
 }

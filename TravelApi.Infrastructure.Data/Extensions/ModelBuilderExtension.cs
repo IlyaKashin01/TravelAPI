@@ -54,7 +54,6 @@ namespace TravelApi.Infrastructure.Data.Extensions
             modelBuilder.Entity<Route>().HasQueryFilter(e => e.DeleteDate == null);
             modelBuilder.Entity<Service>().HasQueryFilter(e => e.DeleteDate == null);
             modelBuilder.Entity<Settings>().HasQueryFilter(e => e.DeleteDate == null);
-            modelBuilder.Entity<SettingsJoinToPerson>().HasQueryFilter(e => e.DeleteDate == null);
             modelBuilder.Entity<Storage>().HasQueryFilter(e => e.DeleteDate == null);
             modelBuilder.Entity<TaskJourney>().HasQueryFilter(e => e.DeleteDate == null);
 

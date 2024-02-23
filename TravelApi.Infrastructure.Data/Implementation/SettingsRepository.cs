@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Asn1.Ocsp;
 using TravelApi.Domain.Core.Entities;
 using TravelApi.Domain.Interfaces;
 
@@ -17,9 +18,47 @@ namespace TravelApi.Infrastructure.Data.Implementation
             _context = context;
         }
 
-        public async Task<IEnumerable<Settings>> GetAllSettingsAsync()
+        public async Task<bool> CreateAndBindingSettingsAsync(int personId)
         {
-            return await _context.Settings.ToListAsync();
+            var person = await _context.Users.FirstOrDefaultAsync(x => x.Id == personId);
+            if (person is not null)
+            {
+                var settings = new List<Settings> {
+                new Settings
+                {
+                    Id = 1,
+                    NameSetting = "Двухэтапная аутентификация",
+                    NameGroup = "Безопасность",
+                    Status = false,
+                    Person = person,
+                    CreatedDate = DateTime.UtcNow
+                },
+                new Settings
+                {
+                    Id = 2,
+                    NameSetting = "Закрытый профиль",
+                    NameGroup = "Конфиденциальность",
+                    Status = false,
+                    Person = person,
+                    CreatedDate = DateTime.UtcNow
+                },
+                new Settings
+                {
+                    Id = 3,
+                    NameSetting = "Видимость облачного хранилища",
+                    NameGroup = "Конфиденциальность",
+                    Status = false,
+                    Person = person,
+                    CreatedDate = DateTime.UtcNow
+                }
+                };
+                _context.Set<Settings>().AddRange(settings);
+                person.Settings = settings;
+                person.UpdatedDate = DateTime.UtcNow;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
         public async Task<bool> ChangeStatusAsync(int settingId)
@@ -34,7 +73,7 @@ namespace TravelApi.Infrastructure.Data.Implementation
 
         public async Task<IEnumerable<Settings>> GetSettingsByPersonAsync(int PersonId)
         {
-            return await _context.SettingsJoinToUsers.Include(x => x.Settings).Where(x => x.PersonId == PersonId).Select(x => x.Settings).ToListAsync();
+            return await _context.Settings.Include(x => x.Person).Where(x => x.Id == PersonId).ToListAsync();
         }
 
         public Task<bool> IsExistAsync(int id)
@@ -56,7 +95,7 @@ namespace TravelApi.Infrastructure.Data.Implementation
 
         public async Task<Settings?> GetSettingByPersonAsync(int PersonId, string settingName)
         {
-            return await _context.SettingsJoinToUsers.Include(x => x.Settings).Where(x => x.PersonId == PersonId).Select(x => x.Settings).FirstOrDefaultAsync(x => x.NameSetting == settingName);
+            return await _context.Settings.Include(x => x.Person).Where(x => x.Id == PersonId).FirstOrDefaultAsync(x => x.NameSetting == settingName);
         }
     }
 }

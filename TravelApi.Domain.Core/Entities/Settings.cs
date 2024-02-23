@@ -10,6 +10,6 @@ namespace TravelApi.Domain.Core.Entities
         public string NameSetting { get; set; } = string.Empty;
         public string NameGroup { get; set; } = string.Empty;
         public bool Status { get; set; }
-        public List<SettingsJoinToPerson> Users { get; set; } = new List<SettingsJoinToPerson>();
+        public Person Person { get; set; } = new Person();
     }
 }
